@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,10 @@ SECRET_KEY = 'django-insecure-bfb-4f%f*vfzlz$94f^dy^ys0l4)23s@3k@ph7hb$5lwh6(d(s
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
 
 
 # Application definition
@@ -37,8 +41,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core'
+    'core',
+    'rest_framework',
+    'user.apps.UserConfig',
+    'profiles.apps.ProfilesConfig',
+    'messaging.apps.MessagingConfig'
 ]
+# MIDDLEWARE = [
+#     'django.middleware.security.SecurityMiddleware',
+#     'django.contrib.sessions.middleware.SessionMiddleware',
+#     'django.middleware.common.CommonMiddleware',
+#     'django.middleware.csrf.CsrfViewMiddleware',
+#     'django.contrib.auth.middleware.AuthenticationMiddleware',
+#     'django.contrib.messages.middleware.MessageMiddleware',
+#     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+# ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -49,6 +66,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'app.urls'
 
@@ -74,17 +92,29 @@ WSGI_APPLICATION = 'app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'HOST': os.environ.get('DB_HOST'),
+#         'NAME': os.environ.get('DB_NAME'),
+#         'USER': os.environ.get('DB_USER'),
+#         'PASSWORD': os.environ.get('DB_PASS')
+
+
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'HOST': os.environ.get('DB_HOST'),
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASS')
-
-
+        'NAME': 'devdb',
+        'USER': 'devuser',
+        'PASSWORD': 'changeme',
+        'HOST': 'db',  # Make sure it matches the service name in docker-compose.yml
+        'PORT': '5432',
     }
 }
+
 
 
 # Password validation
@@ -129,3 +159,22 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+AUTH_USER_MODEL = 'core.User'
+
+
+APPEND_SLASH = False
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES':(
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+
+SIMPLE_JWT={
+    'ACCESS_TOKEN_LIFETIME':timedelta(days=10),
+    'AUTH_HEADER_TYPES':('Bearer',),
+    'AUTH_TOKEN_CLASSES':('rest_framework_simplejwt.tokens.AccessToken'),
+}

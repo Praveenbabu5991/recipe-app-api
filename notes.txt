@@ -1,2 +1,94 @@
 command for creating django app:
 docker-compose run --rm app sh -c "python manage.py startapp core"
+
+
+pip install virtualenv
+virtualen myenv
+
+to sart an django project:
+django-admin startproject backend
+
+
+to run
+python manage.py runserver
+
+to start an app 
+python manage.py startapp job
+
+
+serializer: 
+convert object to json
+serializer=jobserializer(model object)
+serializer.data to extract values
+
+
+
+api
+will start wirh request
+ends with response
+
+ORM:
+Job.objects.all()
+Job.objects.filter()
+Job.objects.get()
+Job.objects.create(**data)
+
+
+api payload will be get by in api like this:
+
+request.data
+
+for update and passing by id;
+path("jobs/<str:pk>/update")
+path("jobs/<str:pk>
+
+@api_view([get]):
+post:
+put:update
+delete:
+
+** = operator used for unpacking dictionary
+
+
+In serializers condition will be given like this
+
+  extra_kwargs={
+            'first_name':{'required': True,'allow_blank':False},
+            'last_name':{'required': True,'allow_blank':False},
+            'email':{'required': True,'allow_blank':False},
+            'password': {'required': True,'allow_blank':False,'min_lenth':5},
+            }
+
+1)
+is_valid()--->
+In Python, is_valid() is not a built-in function or method that is part of the core language. However, it is commonly used as a method name in the context of Django forms and other validation scenarios in Python frameworks.
+
+For example, in Django, when working with forms, you might use the is_valid() method to check if the submitted form data is valid according to the form's defined validation rules. Here's a simple example:
+
+python
+Copy code
+from django import forms
+
+class MyForm(forms.Form):
+    name = forms.CharField()
+    email = forms.EmailField()
+
+# In your view or wherever you handle form submissions
+if request.method == 'POST':
+    form = MyForm(request.POST)
+    if form.is_valid():
+        # Process the form data because it's valid
+    else:
+        # Form data is not valid, handle errors
+exists()--->
+In Django, exists() is a method provided by the QuerySet API. It's used to check if there are any records in the database that match the given query criteria. Here's an example:
+
+python
+Copy code
+from myapp.models import MyModel
+
+# Check if there are any records in the database that match the query
+if MyModel.objects.filter(some_field=some_value).exists():
+    # Do something if records exist
+else:
+    # Do something else if no records exist
