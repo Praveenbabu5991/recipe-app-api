@@ -8,7 +8,12 @@ from .serializers import SignUpSerializer,UserSerializer
 
 from rest_framework.permissions import IsAuthenticated
 
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+
+
+
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 # @api_view(['POST'])
 # def register(request):
@@ -41,9 +46,12 @@ from django.contrib.auth.models import User
 
 @api_view(['POST'])
 def register(request):
+    print("++++++++++++++++++++++++++++++++userfields++++++++++1.1",User._meta.fields)
+
     data = request.data
 
     serializer = SignUpSerializer(data=data)
+    print("++++++++++++++++++++++++++++++++++1.1",serializer)
     if serializer.is_valid():
         if not User.objects.filter(username=data['email']).exists():
             # Create a new User instance using the validated data from the serializer
