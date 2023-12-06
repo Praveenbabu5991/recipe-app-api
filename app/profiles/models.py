@@ -25,3 +25,16 @@ class Preference(models.Model):
 
     def __str__(self):
         return f"Preferences for {self.user.username}"
+
+
+# profiles/models.py
+class PsychologicalQuestion(models.Model):
+    question_text = models.TextField()
+
+class PsychologicalAnswer(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    question = models.ForeignKey(PsychologicalQuestion, on_delete=models.CASCADE)
+    answer = models.TextField()
+
+    def __str__(self):
+        return f"Answer by {self.user.username} to question: {self.question.question_text}"
