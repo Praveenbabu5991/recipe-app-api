@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/',include('user.urls')),
     path('api_profiles/', include('profiles.urls')),  # Include the profiles app's URLs
+    path('api/recommendations/', include('recommendation.urls')),
 
     path('api/token',TokenObtainPairView.as_view()),
     path('api/token/verify',TokenVerifyView.as_view())

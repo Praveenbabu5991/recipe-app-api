@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'user.apps.UserConfig',
     'profiles.apps.ProfilesConfig',
-    'messaging.apps.MessagingConfig'
+    'messaging.apps.MessagingConfig',
+    'recommendation.apps.RecommendationConfig',
 ]
 # MIDDLEWARE = [
 #     'django.middleware.security.SecurityMiddleware',
