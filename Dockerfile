@@ -1,46 +1,69 @@
+# FROM python:3.9-alpine3.13
+# LABEL maintainer="londonappdeveloper.com"
+
+# RUN apk --no-cache add \
+#     build-base \
+#     libffi-dev \
+#     openssl-dev \
+#     libc-dev \
+#     linux-headers \
+#     libressl-dev \
+#     musl-dev \
+#     libressl
+
+# RUN pip install --upgrade pip
+# ENV PYTHONUNBUFFERED 1
+
+# COPY ./requirements.txt /requirements.txt
+# RUN pip install --no-cache-dir -r requirements.txt
+# COPY ./app /app
+
+
+# WORKDIR /app
+# EXPOSE 8000
+
+
+# ARG DEV=false
+
+
+# ENV PATH="/py/bin:$PATH"
+
 FROM python:3.9-alpine3.13
 LABEL maintainer="londonappdeveloper.com"
 
+RUN apk add --no-cache gfortran  # Add this line
+
+RUN apk add --no-cache \
+    build-base \
+    python3-dev \
+    openblas-dev \
+    libexecinfo-dev \
+    gcc \
+    gfortran \
+    musl-dev \
+    linux-headers
+
+
+RUN pip install --upgrade pip
 ENV PYTHONUNBUFFERED 1
 
-COPY ./requirements.txt /tmp/requirements.txt
-COPY ./requirements.dev.txt /tmp/requirements.dev.txt
+COPY ./requirements.txt /requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-COPY ./app /app
+
+RUN pip install --no-cache-dir numpy
+RUN pip install --no-cache-dir scipy==1.11.4
+RUN pip install --no-cache-dir Pillow
+
+# COPY ./app /app
+
+# WORKDIR /app
 WORKDIR /app
+COPY . .
+#COPY ./services /app/services
+
+
 EXPOSE 8000
 
-RUN apk add --no-cache openblas-dev
-
-# ARG DEV=false
-# RUN python -m venv /py && \
-#     /py/bin/pip install --upgrade pip && \
-#     apk add --update --no-cache postgresql-client && \
-#     apk add --update --no-cache --virtual .tmp-build-deps \
-#         build-base postgresql-dev musl-dev && \
-#     /py/bin/pip install -r /tmp/requirements.txt && \
-#     if [$DEV="true"];\
-#         then /py/bin/pip install -r requirements.dev.txt ; \
-#     fi && \
-#     rm -rf /tmp && \
-#     apk del .tmp-build-deps && \
-#     adduser -D django-user
-
 ARG DEV=false
-
-RUN python -m venv /py && \
-    /py/bin/pip install --upgrade pip && \
-    apk add --update --no-cache postgresql-client && \
-    apk add --update --no-cache --virtual .tmp-build-deps \
-        build-base postgresql-dev musl-dev gfortran libexecinfo-dev libffi-dev && \
-    /py/bin/pip install -r /tmp/requirements.txt && \
-    if [ "$DEV" = "true" ]; then /py/bin/pip install -r /tmp/requirements.dev.txt ; fi && \
-    rm -rf /tmp && \
-    apk del .tmp-build-deps && \
-    adduser -D django-user
-
-
-
 ENV PATH="/py/bin:$PATH"
-
-USER django-user

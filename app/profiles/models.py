@@ -13,6 +13,7 @@ class UserProfile(models.Model):
     gender = models.CharField(max_length=10, choices=[("Male", "Male"), ("Female", "Female"), ("Other", "Other")])
     location = models.CharField(max_length=255, blank=True)
     profile_picture = models.ImageField(upload_to="profile_pics/", blank=True, null=True)
+    similarity_calculation_done = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username

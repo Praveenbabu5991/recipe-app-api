@@ -28,7 +28,7 @@ DEBUG = True
 
 # ALLOWED_HOSTS = []
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1','app']
 
 
 
@@ -41,12 +41,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core',
+    'core.apps.CoreConfig',
     'rest_framework',
     'user.apps.UserConfig',
     'profiles.apps.ProfilesConfig',
     'messaging.apps.MessagingConfig',
     'recommendation.apps.RecommendationConfig',
+    
+
 ]
 # MIDDLEWARE = [
 #     'django.middleware.security.SecurityMiddleware',
