@@ -34,6 +34,7 @@ EXPOSE 8000
 
 # Command to run on container start
 # CMD ["python", "similarity_service.py"]
-CMD ["sh", "-c", "python ./services/similarity_service.py"]
+CMD ["sh", "-c", "python ./services/similarity_service.py && python ./services/messaging_service.py"]
+
 
 

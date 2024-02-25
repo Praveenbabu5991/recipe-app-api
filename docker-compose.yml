@@ -47,6 +47,19 @@ services:
       - db
       - app
 
+  messaging-service:
+    build: .
+    command: > 
+      sh -c "python services/messaging_service.py"  # Update the command accordingly
+    environment:
+      - DB_HOST=db
+      - DB_NAME=devdb
+      - DB_USER=devuser
+      - DB_PASS=changeme
+    depends_on:
+      - db
+      - app
+
   db:
     image: postgres:13-alpine
     volumes:
